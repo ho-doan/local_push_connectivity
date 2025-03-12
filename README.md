@@ -228,7 +228,7 @@ class FilterControlProvider: NEAppPushProvider, UserSettingsObserverDelegate {
 </plist>
 ```
 
-** If you encounter an error while running the application, you can check
+**If you encounter an error while running the application, you can check**
 
 ![runner_spm](./images/runner_spm.png)
 ![runner_build](./images/runner_build.png)
