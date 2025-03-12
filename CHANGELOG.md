@@ -1,3 +1,7 @@
+## 0.0.3
+
+* change package name
+
 ## 0.0.2
 
 * support Platform android, ios, windows

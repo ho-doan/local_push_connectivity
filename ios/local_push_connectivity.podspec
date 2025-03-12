@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'local_push_connectivity'
-  s.version          = '0.0.2'
+  s.version          = '0.0.3'
   s.summary          = 'a local network Apple Local Push Connectivity'
   s.description      = <<-DESC
 a local network Apple Local Push Connectivity use TCP, Secure TCP, WS, WSS
