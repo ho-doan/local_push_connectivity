@@ -4,14 +4,14 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'local_push_connectivity'
-  s.version          = '0.0.1'
-  s.summary          = 'A new Flutter plugin project.'
+  s.version          = '0.0.2'
+  s.summary          = 'a local network Apple Local Push Connectivity'
   s.description      = <<-DESC
-A new Flutter plugin project.
+a local network Apple Local Push Connectivity
                        DESC
-  s.homepage         = 'http://example.com'
+  s.homepage         = 'https://github.com/ho-doan/local_push_connectivity'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Your Company' => 'email@example.com' }
+  s.author           = { 'Your Company' => 'hodoan.it.dev@gmail.com' }
   s.source           = { :path => '.' }
   s.source_files = 'local_push_connectivity/Sources/local_push_connectivity/**/*'
   s.dependency 'Flutter'
