@@ -10,7 +10,7 @@ void main() async {
   await runZonedGuarded(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
-      // await LocalPushNotifications.instance.initial(
+      // await LocalPushConnectivity.instance.initial(
       //   mode: const ConnectModeWebSocket(
       //     host: 'localhost',
       //     port: 4040,
