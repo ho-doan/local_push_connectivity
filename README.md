@@ -149,7 +149,7 @@ class FilterControlProvider: NEAppPushProvider, UserSettingsObserverDelegate {
                 MessageManager.shared.showNotificationError(payload: "error ---- \(settings)")
             }
         }
-        let dispatchQueue = DispatchQueue(label: "LocalPushNotificationsPlugin.dispatchQueue")
+        let dispatchQueue = DispatchQueue(label: "LocalPushConnectivityPlugin.dispatchQueue")
         dispatchQueue.asyncAfter(deadline: .now() + 6, execute: retryWorkItem)
     }
     
@@ -177,7 +177,7 @@ class FilterControlProvider: NEAppPushProvider, UserSettingsObserverDelegate {
             self.channel?.connect()
         }
         
-        let dispatchQueue = DispatchQueue(label: "LocalPushNotificationsPlugin.dispatchQueue")
+        let dispatchQueue = DispatchQueue(label: "LocalPushConnectivityPlugin.dispatchQueue")
         dispatchQueue.asyncAfter(deadline: .now() + 6, execute: retryWorkItem)
         
     }

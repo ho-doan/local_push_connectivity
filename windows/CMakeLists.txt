@@ -20,6 +20,14 @@ set(PLUGIN_NAME "local_push_connectivity_plugin")
 list(APPEND PLUGIN_SOURCES
   "local_push_connectivity_plugin.cpp"
   "local_push_connectivity_plugin.h"
+  "win_toast.cpp"
+  "win_toast.h"
+  "win_process.cpp"
+  "win_process.h"
+  "win_socket.cpp"
+  "win_socket.h"
+  "utils.h"
+  "pch.h"
 )
 
 # Define the plugin library target. Its name must not be changed (see comment

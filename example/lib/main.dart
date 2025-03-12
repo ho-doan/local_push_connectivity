@@ -24,7 +24,7 @@ void main() async {
       await LocalPushConnectivity.instance.initial(
         widows: const WindowsSettings(
           displayName: 'Local Push Sample',
-          bundleId: 'com.hodoan.local_push_notifications_example',
+          bundleId: 'com.hodoan.local_push_connectivity_example',
           icon: r'assets\favicon.png',
           iconContent: r'assets\info.svg',
         ),

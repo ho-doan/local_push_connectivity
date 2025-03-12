@@ -5,6 +5,8 @@
 
 #include "resource.h"
 
+#include "local_push_connectivity/local_push_connectivity_plugin_c_api.h"
+
 namespace {
 
 /// Window attribute that enables dark mode window decorations.
@@ -158,6 +160,7 @@ LRESULT CALLBACK Win32Window::WndProc(HWND const window,
                                       UINT const message,
                                       WPARAM const wparam,
                                       LPARAM const lparam) noexcept {
+  LocalPushConnectivityPluginCApiHandleMessage(window, message, lparam);
   if (message == WM_NCCREATE) {
     auto window_struct = reinterpret_cast<CREATESTRUCT*>(lparam);
     SetWindowLongPtr(window, GWLP_USERDATA,

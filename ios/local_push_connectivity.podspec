@@ -25,5 +25,5 @@ A new Flutter plugin project.
   # required reason APIs, update the PrivacyInfo.xcprivacy file to describe your
   # plugin's privacy impact, and then uncomment this line. For more information,
   # see https://developer.apple.com/documentation/bundleresources/privacy_manifest_files
-  # s.resource_bundles = {'local_push_connectivity_privacy' => ['local_push_connectivity/Sources/local_push_connectivity/PrivacyInfo.xcprivacy']}
+  s.resource_bundles = {'local_push_connectivity_privacy' => ['local_push_connectivity/Sources/local_push_connectivity/PrivacyInfo.xcprivacy']}
 end

@@ -3,6 +3,7 @@
 
 #include <flutter/method_channel.h>
 #include <flutter/plugin_registrar_windows.h>
+#include <flutter/event_channel.h>
 
 #include <memory>
 
@@ -24,6 +25,13 @@ class LocalPushConnectivityPlugin : public flutter::Plugin {
   void HandleMethodCall(
       const flutter::MethodCall<flutter::EncodableValue> &method_call,
       std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result);
+
+      void OnNotificationActivated(const std::wstring &argument, const std::map<std::wstring, std::wstring> &user_input);
+
+private:
+    static std::unique_ptr<flutter::EventSink<>> _event_sink;
+    static void StreamListen(std::unique_ptr<flutter::EventSink<>> &&events);
+    static void StreamCancel();
 };
 
 }  // namespace local_push_connectivity

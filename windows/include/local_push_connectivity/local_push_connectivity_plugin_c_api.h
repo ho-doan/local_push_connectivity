@@ -2,6 +2,8 @@
 #define FLUTTER_PLUGIN_LOCAL_PUSH_CONNECTIVITY_PLUGIN_C_API_H_
 
 #include <flutter_plugin_registrar.h>
+#include <windows.h>
+#include <string>
 
 #ifdef FLUTTER_PLUGIN_IMPL
 #define FLUTTER_PLUGIN_EXPORT __declspec(dllexport)
@@ -15,6 +17,10 @@ extern "C" {
 
 FLUTTER_PLUGIN_EXPORT void LocalPushConnectivityPluginCApiRegisterWithRegistrar(
     FlutterDesktopPluginRegistrarRef registrar);
+
+FLUTTER_PLUGIN_EXPORT int LocalPushConnectivityPluginCApiRegisterProcess(std::wstring title, wchar_t *command_line);
+
+FLUTTER_PLUGIN_EXPORT void LocalPushConnectivityPluginCApiHandleMessage(HWND const window, UINT const message, LPARAM const lparam);
 
 #if defined(__cplusplus)
 }  // extern "C"
