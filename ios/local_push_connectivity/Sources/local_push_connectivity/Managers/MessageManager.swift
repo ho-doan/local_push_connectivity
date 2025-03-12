@@ -41,26 +41,26 @@ public class MessageManager: NSObject, UNUserNotificationCenterDelegate {
         if let payload = response.notification.request.content.userInfo["payload"] as? String {
             delegate?.onMessage(message: payload, true)
         }
-//        let isShowNotify = response.notification.request.content.userInfo["showNotify"] as? Bool ?? true
-//                if isShowNotify {
-//                    return
-//                }
-//        return completionHandler()
+        //        let isShowNotify = response.notification.request.content.userInfo["showNotify"] as? Bool ?? true
+        //                if isShowNotify {
+        //                    return
+        //                }
+        //        return completionHandler()
     }
     
     public func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         if let payload = notification.request.content.userInfo["payload"] as? String {
             delegate?.onMessage(message: payload, false)
         }
-//        let isShowNotify = notification.request.content.userInfo["showNotify"] as? Bool ?? false
-//        if !isShowNotify {
-//            return
-//        }
-//        if #available(iOS 14.0, *) {
-//            return completionHandler([.badge, .sound, .banner])
-//        } else {
-//            completionHandler([.badge, .sound, .alert])
-//        }
+        //        let isShowNotify = notification.request.content.userInfo["showNotify"] as? Bool ?? false
+        //        if !isShowNotify {
+        //            return
+        //        }
+        //        if #available(iOS 14.0, *) {
+        //            return completionHandler([.badge, .sound, .banner])
+        //        } else {
+        //            completionHandler([.badge, .sound, .alert])
+        //        }
     }
     
     public func showNotificationError(payload: String) {

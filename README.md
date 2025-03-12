@@ -343,3 +343,7 @@ LocalPushConnectivity.instance.setUser(userId: 'abc-id-1');
 // if Platform ios
 LocalPushConnectivity.instance.configSSID('HoDoanWifi');
 ```
+
+## Example
+
+![android](./images/ex.android.jpg)

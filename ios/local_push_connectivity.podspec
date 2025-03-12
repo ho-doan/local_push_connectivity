@@ -7,15 +7,15 @@ Pod::Spec.new do |s|
   s.version          = '0.0.2'
   s.summary          = 'a local network Apple Local Push Connectivity'
   s.description      = <<-DESC
-a local network Apple Local Push Connectivity
+a local network Apple Local Push Connectivity use TCP, Secure TCP, WS, WSS
                        DESC
   s.homepage         = 'https://github.com/ho-doan/local_push_connectivity'
-  s.license          = { :file => '../LICENSE' }
+  s.license          = { :type => 'BSD-3-Clause', :file => '../LICENSE' }
   s.author           = { 'Your Company' => 'hodoan.it.dev@gmail.com' }
   s.source           = { :path => '.' }
   s.source_files = 'local_push_connectivity/Sources/local_push_connectivity/**/*'
   s.dependency 'Flutter'
-  s.platform = :ios, '12.0'
+  s.platform = :ios, '15.0'
 
   # Flutter.framework does not contain a i386 slice.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }

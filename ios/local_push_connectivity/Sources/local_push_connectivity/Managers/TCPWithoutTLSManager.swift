@@ -17,7 +17,7 @@ public class TCP2Manager : ISocManager {
     public init(settings: Settings) {
         self.settings = settings
     }
-  
+    
     public private(set) var connection: NWConnection?
     
     public override func connect() {
@@ -59,38 +59,38 @@ public class TCP2Manager : ISocManager {
                 }
                 
                 switch state {
-                case .waiting(let error):
-                    print(error.debugDescription)
-                    self.retry(after: self.retryInterval, error: error)
-                case .ready:
-                    self.stateSubject.send(.connected)
-                    MessageManager.shared.showNotificationError(payload: "\(state)")
-                    var messageInit:[String:Any] = [:]
-                    messageInit["MessageType"] = "register"
-                    messageInit["SendId"] = settings.uuid
-                    messageInit["ReceiveId"] = ""
-                    messageInit["DeviceId"] = settings.deviceId
-                    if let messageJson = try? JSONSerialization.data(withJSONObject: messageInit){
-                        let message = String(data: messageJson, encoding: .utf8)!
-                        let data = message.data(using: .utf8)
-                        self.connection?.send(content: data, completion: .contentProcessed({ error in
-                            if let error = error {
-                                print("Failed to send data: \(error)")
-                                return
-                            }
-                            print("Data sent: \(message)")
-                            self.receiveData()
-                        }))
-                    }
-                case .failed(let error):
-                    print(error.debugDescription)
-                    self.disconnect()
-                    self.retry(after: .seconds(5), error: error)
-                case .cancelled:
-                    self.stateSubject.send(.disconnected)
-                    self.disconnect()
-                default:
-                    break
+                    case .waiting(let error):
+                        print(error.debugDescription)
+                        self.retry(after: self.retryInterval, error: error)
+                    case .ready:
+                        self.stateSubject.send(.connected)
+                        MessageManager.shared.showNotificationError(payload: "\(state)")
+                        var messageInit:[String:Any] = [:]
+                        messageInit["MessageType"] = "register"
+                        messageInit["SendId"] = settings.uuid
+                        messageInit["ReceiveId"] = ""
+                        messageInit["DeviceId"] = settings.deviceId
+                        if let messageJson = try? JSONSerialization.data(withJSONObject: messageInit){
+                            let message = String(data: messageJson, encoding: .utf8)!
+                            let data = message.data(using: .utf8)
+                            self.connection?.send(content: data, completion: .contentProcessed({ error in
+                                if let error = error {
+                                    print("Failed to send data: \(error)")
+                                    return
+                                }
+                                print("Data sent: \(message)")
+                                self.receiveData()
+                            }))
+                        }
+                    case .failed(let error):
+                        print(error.debugDescription)
+                        self.disconnect()
+                        self.retry(after: .seconds(5), error: error)
+                    case .cancelled:
+                        self.stateSubject.send(.disconnected)
+                        self.disconnect()
+                    default:
+                        break
                 }
             }
             
@@ -124,14 +124,14 @@ public class TCP2Manager : ISocManager {
         }
         
         switch error {
-        case .posix(let code):
-            print("POSIX Error Code - \(code)")
-        case .tls(let code):
-            print("TLS Error Code - \(code)")
-        case .dns(let code):
-            print("DNS Error Code - \(code)")
-        default:
-            print("Unknown error type encountered in \(#function)")
+            case .posix(let code):
+                print("POSIX Error Code - \(code)")
+            case .tls(let code):
+                print("TLS Error Code - \(code)")
+            case .dns(let code):
+                print("DNS Error Code - \(code)")
+            default:
+                print("Unknown error type encountered in \(#function)")
         }
         
         retryWorkItem = DispatchWorkItem {

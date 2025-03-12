@@ -103,17 +103,17 @@ public class LocalPushConnectivityPlugin: NSObject, FlutterPlugin, UserSettingsO
                         
                         try? settingManager.set(settings: settings)
                         
-//                        NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)
-//                            .sink {
-//                                [weak self] _ in
-//                                if userId != nil {
-//                                    var settings = SettingManager.shared.settings
-//                                    settings.uuid = userId
-//                                    try? SettingManager.shared.set(settings: settings)
-//                                    try? self?.settingManager.set(settings: settings)
-//                                }
-//                            }
-//                            .store(in: &cancellables)
+                        //                        NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)
+                        //                            .sink {
+                        //                                [weak self] _ in
+                        //                                if userId != nil {
+                        //                                    var settings = SettingManager.shared.settings
+                        //                                    settings.uuid = userId
+                        //                                    try? SettingManager.shared.set(settings: settings)
+                        //                                    try? self?.settingManager.set(settings: settings)
+                        //                                }
+                        //                            }
+                        //                            .store(in: &cancellables)
                         
                     } else {
                         result(FlutterError(code: "INVALID_ARGUMENT", message: "Invalid arguments", details: nil))

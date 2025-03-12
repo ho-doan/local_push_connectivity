@@ -41,8 +41,8 @@ public class PushConfigurationManager: NSObject, UserSettingsObserverDelegate {
         print("Loading existing push manager.")
         NEAppPushManager.loadAllFromPreferences { managers, error in
             if let neError = error as? NEAppPushManagerError {
-                    print("NEAppPushError: \(neError)")
-                }
+                print("NEAppPushError: \(neError)")
+            }
             else if let error = error {
                 print("Failed to load all managers from preferences: \(error)")
                 return
@@ -90,7 +90,7 @@ public class PushConfigurationManager: NSObject, UserSettingsObserverDelegate {
         pushManager.saveToPreferences { error in
             if let neError = error as? NEAppPushManagerError {
                 print("NEAppPushError: \(neError.localizedDescription)")
-                }
+            }
             else if let error = error {
                 print("========= saveToPreferences \(error.localizedDescription)")
             }
