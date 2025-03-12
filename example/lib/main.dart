@@ -28,18 +28,25 @@ void main() async {
           icon: r'assets\favicon.png',
           iconContent: r'assets\info.svg',
         ),
-        android: const AndroidSettings(icon: '@mipmap/ic_launcher'),
+        android: const AndroidSettings(
+          icon: '@mipmap/ic_launcher',
+          channelNotification:
+              'com.hodoan.local_push_connectivity_example.notification',
+        ),
         ios: const IosSettings(ssid: 'HoDoanWifi'),
         web: const WebSettings(),
-        // mode: const ConnectModeWebSocket(
-        //   // host: 'ho-doan.com',
+        mode: const ConnectModeWebSocket(
+          // host: 'ho-doan.com',
+          host: '10.50.80.172',
+          port: 4040,
+          wss: false,
+          // wss: false,
+          part: '/ws/',
+        ),
+        // mode: const ConnectModeTCP(
         //   host: '10.50.80.172',
-        //   port: 4040,
-        //   wss: false,
-        //   // wss: false,
-        //   part: '/ws/',
+        //   port: 4041,
         // ),
-        mode: const ConnectModeTCP(host: '10.50.80.172', port: 4041),
       );
       await LocalPushConnectivity.instance.requestPermission();
       runApp(const MyApp());
@@ -77,7 +84,7 @@ class _MyAppState extends State<MyApp> {
 
       platformVersion =
           await LocalPushConnectivity.instance.getPlatformVersion() ??
-          'Unknown platform version';
+              'Unknown platform version';
 
       // await LocalPushConnectivity.instance.config(
       //   mode: const ConnectModeWebSocket(
@@ -89,8 +96,8 @@ class _MyAppState extends State<MyApp> {
       // );
       await LocalPushConnectivity.instance.config(
         mode: const ConnectModeWebSocket(
-          // host: '10.50.80.172',
-          host: '10.50.10.20',
+          host: '10.50.80.172',
+          // host: '10.50.10.20',
           port: 4040,
           wss: false,
           part: '/ws/',

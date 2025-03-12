@@ -1,4 +1,4 @@
-group = "com.example.local_push_connectivity"
+group = "com.hodoan.local_push_connectivity"
 version = "1.0-SNAPSHOT"
 
 buildscript {
@@ -25,7 +25,7 @@ apply plugin: "com.android.library"
 apply plugin: "kotlin-android"
 
 android {
-    namespace = "com.example.local_push_connectivity"
+    namespace = "com.hodoan.local_push_connectivity"
 
     compileSdk = 35
 

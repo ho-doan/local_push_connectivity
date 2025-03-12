@@ -4,7 +4,7 @@ version: 0.0.2
 homepage: https://github.com/ho-doan/local_push_connectivity
 
 environment:
-  sdk: ^3.7.0
+  sdk: ^3.5.4
   flutter: '>=3.3.0'
 
 dependencies:
@@ -24,7 +24,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.example.local_push_connectivity
+        package: com.hodoan.local_push_connectivity
         pluginClass: LocalPushConnectivityPlugin
       ios:
         pluginClass: LocalPushConnectivityPlugin

@@ -1,4 +1,4 @@
-package com.example.local_push_connectivity
+package com.hodoan.local_push_connectivity
 
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel

@@ -20,7 +20,7 @@ abstract class ISocketBase(
     private val contentResolver: ContentResolver,
     receiverCallback: ReceiverCallback,
 ) {
-    lateinit var settings: PluginSettings
+    var settings: PluginSettings
 
     init {
         settings = PluginSettings()

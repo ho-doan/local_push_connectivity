@@ -43,12 +43,14 @@ class SocketClient(
                 while (!it.isClosed) {
                     if (it.isClosed) break
                     val data = inputStream?.read()
-                    str += data?.toChar()
-                    if (inputStream?.available() == 0) {
-                        Log.e("///", "on Socket Receive: $str")
-                        if (str.isNotBlank()) {
-                            receiverCallback.newMessage(str)
-                            str = ""
+                    if((data ?: 0) > 0) {
+                        str += data?.toChar()
+                        if (inputStream?.available() == 0) {
+                            Log.e("///", "on Socket Receive: $str")
+                            if (str.isNotBlank()) {
+                                receiverCallback.newMessage(str)
+                                str = ""
+                            }
                         }
                     }
                 }

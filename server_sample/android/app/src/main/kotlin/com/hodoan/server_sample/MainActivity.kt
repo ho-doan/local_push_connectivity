@@ -1,4 +1,4 @@
-package com.example.server_sample
+package com.hodoan.server_sample
 
 import io.flutter.embedding.android.FlutterActivity
 
