@@ -230,13 +230,13 @@ class FilterControlProvider: NEAppPushProvider, UserSettingsObserverDelegate {
 
 **If you encounter an error while running the application, you can check**
 
-![runner_spm](./images/runner_spm.png)
-![runner_build](./images/runner_build.png)
-![runner_build_lib](./images/runner_build_lib.png)
-![runner_sign](./images/runner_sign.png)
+![runner_spm](https://github.com/ho-doan/local_push_connectivity/blob/master/images/runner_spm.png)
+![runner_build](https://github.com/ho-doan/local_push_connectivity/blob/master/images/runner_build.png)
+![runner_build_lib](https://github.com/ho-doan/local_push_connectivity/blob/master/images/runner_build_lib.png)
+![runner_sign](https://github.com/ho-doan/local_push_connectivity/blob/master/images/runner_sign.png)
 [how to add extension flutter](https://docs.flutter.dev/platform-integration/ios/app-extensions)
 [current bug extension flutter](https://github.com/flutter/flutter/issues/142136)
-![kit](./images/kit.png)
+![kit](https://github.com/ho-doan/local_push_connectivity/blob/master/images/kit.png)
 
 ### Windows
 
