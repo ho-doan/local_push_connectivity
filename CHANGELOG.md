@@ -1,3 +1,7 @@
+## 0.0.4
+
+* fix lib with xcode 16.2
+
 ## 0.0.3
 
 * change package name
