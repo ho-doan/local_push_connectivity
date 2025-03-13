@@ -52,6 +52,7 @@ class MethodChannelLocalPushConnectivity extends LocalPushConnectivityPlatform {
     await methodChannel.invokeMethod<void>('initial', {
       /// for android & windows
       'iconNotification': Platform.isWindows ? widows?.icon : android?.icon,
+      'channelNotification': android?.channelNotification,
 
       /// for windows
       'displayName': widows?.displayName,
@@ -64,6 +65,7 @@ class MethodChannelLocalPushConnectivity extends LocalPushConnectivityPlatform {
 
       /// for ios
       'ssid': ios?.ssid,
+      'enableSSID': ios?.enableSSID,
       'host': mode?.host,
       if (Platform.isWindows)
         'port': mode?.port.toString()
@@ -84,10 +86,9 @@ class MethodChannelLocalPushConnectivity extends LocalPushConnectivityPlatform {
         log('========== $json');
         return MessageType(
           inApp: type,
-          message:
-              json['data'] is Map
-                  ? jsonEncode(json['data'])
-                  : json['data'] as String? ?? '',
+          message: json['data'] is Map
+              ? jsonEncode(json['data'])
+              : json['data'] as String? ?? '',
         );
       });
 

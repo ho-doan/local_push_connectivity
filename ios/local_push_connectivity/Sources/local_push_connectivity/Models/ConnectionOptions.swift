@@ -9,6 +9,7 @@ import Foundation
 import Network
 import CryptoKit
 
+@available(macOS 10.14, *)
 public enum ConnectionOptions {
     public enum TCP {
         public static var options: NWProtocolTCP.Options {
@@ -25,7 +26,7 @@ public enum ConnectionOptions {
             case unknown
         }
         
-        @available(iOS 13.0, *)
+        @available(iOS 13.0, macOS 10.15, *)
         public class Client {
             public let publicKeyHash: String
             private let dispatchQueue = DispatchQueue(label: "ConnectionParameters.TLS.Client.dispatchQueue")

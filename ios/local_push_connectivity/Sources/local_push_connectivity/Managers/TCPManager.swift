@@ -10,11 +10,11 @@ import Combine
 import Network
 import UserNotifications
 
-@available(iOS 13.0, *)
-public class TCPManager : ISocManager {
+@available(iOS 13.0, macOS 12, *)
+class TCPManager : ISocManager {
     let settings: Settings
     
-    public init(settings: Settings) {
+    init(settings: Settings) {
         self.settings = settings
     }
     

@@ -7,7 +7,10 @@
 
 import Foundation
 import NetworkExtension
+
+#if os(iOS)
 import UIKit
+#endif
 
 @available(iOS 14.0, *)
 public class PushConfigurationManager: NSObject, UserSettingsObserverDelegate {
@@ -18,14 +21,18 @@ public class PushConfigurationManager: NSObject, UserSettingsObserverDelegate {
         if settings.pushManagerSettings.isEmpty{
             return
         }
+        #if os(iOS)
         self.pushManagerSettings = settings.pushManagerSettings
         save(pushManager: pushManager ?? NEAppPushManager(), with: settings.pushManagerSettings)
+        #endif
     }
     
     public static let shared = PushConfigurationManager()
     
     private let dispatchQueue = DispatchQueue(label: "PushConfigurationManager.dispatchQueue")
+    #if os(iOS)
     private var pushManager: NEAppPushManager?
+    #endif
     private var pushManagerSettings: Settings.PushManagerSettings?
     private let pushManagerDescription = "SimplePushDefaultConfiguration"
     private let pushProviderBundleIdentifier = (Bundle.main.object(forInfoDictionaryKey: "NEAppPushBundleId") as? String)!
@@ -39,11 +46,9 @@ public class PushConfigurationManager: NSObject, UserSettingsObserverDelegate {
     
     public func initialize() {
         print("Loading existing push manager.")
+        #if os(iOS)
         NEAppPushManager.loadAllFromPreferences { managers, error in
-            if let neError = error as? NEAppPushManagerError {
-                print("NEAppPushError: \(neError)")
-            }
-            else if let error = error {
+            if let error = error {
                 print("Failed to load all managers from preferences: \(error)")
                 return
             }
@@ -57,36 +62,37 @@ public class PushConfigurationManager: NSObject, UserSettingsObserverDelegate {
                 self.prepare(pushManager: manager)
             }
         }
+        #endif
     }
     
+    #if os(iOS)
     private func prepare(pushManager: NEAppPushManager) {
         self.pushManager = pushManager
-        
         self.pushManager?.isEnabled = true
-        
+
         if pushManager.delegate == nil {
             pushManager.delegate = self
         }
     }
+    #endif
     
+    #if os(iOS)
     private func save(pushManager: NEAppPushManager, with pushManagerSettings: Settings.PushManagerSettings) {
         pushManager.localizedDescription = pushManagerDescription
         pushManager.providerBundleIdentifier = pushProviderBundleIdentifier
         pushManager.delegate = self
         pushManager.isEnabled = true
-        
+
         //        let host: String = pushManager.providerConfiguration["host"] as? String ?? "-11"
         //
         //        if pushManager.matchSSIDs == [pushManagerSettings.ssid] && host == pushManagerSettings.host {
         //            return pushManager.load()
         //        }
-        
+
         pushManager.providerConfiguration = [
             "host": pushManagerSettings.host
         ]
-        
         pushManager.matchSSIDs = [pushManagerSettings.ssid]
-        
         pushManager.saveToPreferences { error in
             if let neError = error as? NEAppPushManagerError {
                 print("NEAppPushError: \(neError.localizedDescription)")
@@ -96,7 +102,7 @@ public class PushConfigurationManager: NSObject, UserSettingsObserverDelegate {
             }
             print("========= saveToPreferences ok")
         }
-        
+
         (self.pushManager ?? pushManager).load {
             p in
             if p != nil {
@@ -106,19 +112,21 @@ public class PushConfigurationManager: NSObject, UserSettingsObserverDelegate {
         
         self.prepare(pushManager: self.pushManager ?? pushManager)
     }
+    #endif
 }
-
+#if os(iOS)
 @available(iOS 14.0, *)
 extension PushConfigurationManager: NEAppPushDelegate {
     public func appPushManager(_ manager: NEAppPushManager, didReceiveIncomingCallWithUserInfo userInfo: [AnyHashable: Any] = [:]) {
+        #if os(iOS)
         print("appPushManager \(manager.isActive)")
+        #endif
     }
 }
 
 @available(iOS 14.0, *)
 extension NEAppPushManager {
     func load(completion: @escaping (NEAppPushManager?) -> Void) {
-        
         loadFromPreferences { error in
             if error != nil {
                 completion(nil)
@@ -136,4 +144,5 @@ extension NEAppPushManager {
         })
     }
 }
+#endif
 

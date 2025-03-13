@@ -10,7 +10,7 @@ import Combine
 import UserNotifications
 import Network
 
-@available(iOS 13.0, *)
+@available(iOS 13.0, macOS 12, *)
 public class ISocManager {
     public static func register(settings:Settings) -> ISocManager{
         if settings.pushManagerSettings.useTCP{
@@ -60,7 +60,7 @@ public class ISocManager {
     
     var retryWorkItem: DispatchWorkItem?
     
-    public init() {
+    init() {
         messageSubject = CurrentValueSubject(nil)
         stateSubject.sink { state in
             print("State - \(state)")

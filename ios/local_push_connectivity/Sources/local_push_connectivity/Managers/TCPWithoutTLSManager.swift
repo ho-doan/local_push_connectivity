@@ -10,11 +10,11 @@ import Combine
 import Network
 import UserNotifications
 
-@available(iOS 13.0, *)
-public class TCP2Manager : ISocManager {
+@available(iOS 13.0, macOS 12, *)
+class TCP2Manager : ISocManager {
     let settings: Settings
     
-    public init(settings: Settings) {
+    init(settings: Settings) {
         self.settings = settings
     }
     
@@ -27,6 +27,7 @@ public class TCP2Manager : ISocManager {
         connect(settings: settings)
     }
     
+    @available(iOS 13.0, macOS 12, *)
     public override func connect(settings: Settings) {
         self.appKilled = settings.appKilled
         

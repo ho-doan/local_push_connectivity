@@ -10,12 +10,12 @@ import Combine
 import Network
 import UserNotifications
 
-@available(iOS 13.0, *)
-public class WebSocketManager : ISocManager {
+@available(iOS 13.0, macOS 12, *)
+class WebSocketManager : ISocManager {
     
     let settings: Settings
     
-    public init(settings: Settings) {
+    init(settings: Settings) {
         self.settings = settings
     }
     

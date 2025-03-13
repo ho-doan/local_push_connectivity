@@ -1,7 +1,9 @@
 class IosSettings {
-  final String ssid;
+  final String? ssid;
+  final bool enableSSID;
 
   const IosSettings({
-    required this.ssid,
+    this.ssid,
+    this.enableSSID = true,
   });
 }

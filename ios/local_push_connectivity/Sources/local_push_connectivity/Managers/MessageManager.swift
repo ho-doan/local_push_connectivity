@@ -12,6 +12,7 @@ public protocol MessageManagerDelegate {
     func onMessage(message: String,_ foreground: Bool)
 }
 
+@available(iOS 13.0, macOS 10.14, *)
 public class MessageManager: NSObject, UNUserNotificationCenterDelegate {
     public static let shared = MessageManager()
     

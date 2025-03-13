@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -20,6 +20,7 @@
 		D75298892D817B78005E21CC /* Flutter.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = D75298882D817B78005E21CC /* Flutter.xcframework */; };
 		D752988C2D817C31005E21CC /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D75298792D817B05005E21CC /* NetworkExtension.framework */; };
 		D75298962D819647005E21CC /* local-push-connectivity in Frameworks */ = {isa = PBXBuildFile; productRef = D75298952D819647005E21CC /* local-push-connectivity */; };
+		D7AAB4ED2D8298D50079C3DA /* local-push-connectivity in Frameworks */ = {isa = PBXBuildFile; productRef = D7AAB4EC2D8298D50079C3DA /* local-push-connectivity */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,6 +115,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D75298892D817B78005E21CC /* Flutter.xcframework in Frameworks */,
+				D7AAB4ED2D8298D50079C3DA /* local-push-connectivity in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -918,6 +920,11 @@
 		};
 		D75298952D819647005E21CC /* local-push-connectivity */ = {
 			isa = XCSwiftPackageProductDependency;
+			productName = "local-push-connectivity";
+		};
+		D7AAB4EC2D8298D50079C3DA /* local-push-connectivity */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D75298942D8190D1005E21CC /* XCLocalSwiftPackageReference "../../ios/local_push_connectivity" */;
 			productName = "local-push-connectivity";
 		};
 /* End XCSwiftPackageProductDependency section */

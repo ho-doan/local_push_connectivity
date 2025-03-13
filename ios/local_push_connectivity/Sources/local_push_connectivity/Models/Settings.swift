@@ -6,7 +6,10 @@
 //
 
 import Foundation
+
+#if os(iOS)
 import UIKit
+#endif
 
 public struct Settings: Codable, Equatable {
     public struct PushManagerSettings: Codable, Equatable {

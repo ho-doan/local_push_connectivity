@@ -96,8 +96,8 @@ class _MyAppState extends State<MyApp> {
       // );
       await LocalPushConnectivity.instance.config(
         mode: const ConnectModeWebSocket(
-          host: '10.50.80.172',
-          // host: '10.50.10.20',
+          // host: '10.50.80.172',
+          host: '10.50.10.20',
           port: 4040,
           wss: false,
           part: '/ws/',

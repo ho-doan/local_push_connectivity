@@ -8,6 +8,7 @@ data class PluginSettings(
     var userId: String? = null,
     var iconNotification: String? = null,
     var port: Int? = null,
+    var channelNotification: String? = null,
 
     var wss: Boolean? = null,
     var wsPath: String? = null,
@@ -20,6 +21,7 @@ data class PluginSettings(
             put("deviceId", deviceId)
             put("userId", userId)
             put("iconNotification", iconNotification)
+            put("channelNotification", channelNotification)
             put("port", port)
             put("wss", wss)
             put("part", wsPath)
@@ -34,6 +36,7 @@ data class PluginSettings(
             deviceId = settings.deviceId ?: deviceId,
             userId = settings.userId ?: userId,
             iconNotification = settings.iconNotification ?: iconNotification,
+            channelNotification = settings.channelNotification ?: channelNotification,
             port = settings.port ?: port,
             wss = settings.wss ?: wss,
             wsPath = settings.wsPath ?: wsPath,
@@ -48,6 +51,7 @@ data class PluginSettings(
             deviceId = deviceId,
             userId = user,
             iconNotification = iconNotification,
+            channelNotification = channelNotification,
             port = port,
             wss = wss,
             wsPath = wsPath,
@@ -63,6 +67,7 @@ data class PluginSettings(
                 deviceId = json.optString("deviceId"),
                 userId = json.optString("userId"),
                 iconNotification = json.optString("iconNotification"),
+                channelNotification = json.optString("channelNotification"),
                 port = json.optInt("port"),
                 wss = json.optBoolean("wss"),
                 wsPath = json.optString("part"),
@@ -77,6 +82,7 @@ data class PluginSettings(
                 deviceId = map["deviceId"] as? String,
                 userId = map["userId"] as? String,
                 iconNotification = map["iconNotification"] as? String,
+                channelNotification = map["channelNotification"] as? String,
                 port = map["port"] as? Int,
                 wss = map["wss"] as? Boolean,
                 wsPath = map["part"] as? String,
