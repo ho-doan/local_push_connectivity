@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "local_push_connectivity",
     platforms: [
-        .iOS("15.0")
+        .iOS("12.0")
     ],
     products: [
         .library(name: "local-push-connectivity", type: .static, targets: ["local_push_connectivity"])

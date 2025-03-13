@@ -1,3 +1,7 @@
+## 0.0.4-beta.1
+
+* downgrade ios version 12.0
+
 ## 0.0.4
 
 * fix lib with xcode 16.2

@@ -19,10 +19,10 @@ class FilterControlProvider: NEAppPushProvider, UserSettingsObserverDelegate {
             print("Retrying to connect with update...")
             self.channel = channel
             if settings.user.uuid?.isEmpty ?? true {
-                channel.disconnect()
+                channel?.disconnect()
             }
             else if !settings.pushManagerSettings.isEmptyInApp {
-                channel.connect(settings: settings)
+                channel?.connect(settings: settings)
             } else {
                 MessageManager.shared.showNotificationError(payload: "error ---- \(settings)")
             }

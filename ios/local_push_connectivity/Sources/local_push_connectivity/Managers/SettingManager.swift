@@ -12,7 +12,7 @@ public protocol UserSettingsObserverDelegate: AnyObject {
     func userSettingsDidChange(settings: Settings)
 }
 
-@available(iOS 13.0, *)
+// @available(iOS 13.0, *)
 public class SettingManager: NSObject {
     private static let settingsKey = "settings"
     private static let userDefaults: UserDefaults = UserDefaults(suiteName: Bundle.main.object(forInfoDictionaryKey: "GroupNEAppPushLocal") as? String)!

@@ -1,16 +1,15 @@
 //
-//  TCPManager.swift
+//  TCP2Manager.swift
 //  local_push_connectivity
 //
 //  Created by Ho Doan on 12/2/24.
 //
 
 import Foundation
-import Combine
 import Network
 import UserNotifications
 
-@available(iOS 13.0, macOS 12, *)
+//@available(iOS 13.0, macOS 12, *)
 class TCPManager : ISocManager {
     let settings: Settings
     
@@ -29,13 +28,11 @@ class TCPManager : ISocManager {
     
     public override func connect(settings: Settings) {
         self.appKilled = settings.appKilled
-        let tls = ConnectionOptions.TLS.Client(publicKeyHash: settings.pushManagerSettings.publicKey).options
-        let parameters = NWParameters(tls: tls, tcp: ConnectionOptions.TCP.options)
         
         let port: Int = settings.pushManagerSettings.port ?? -1
         let host = settings.pushManagerSettings.host
         
-        let connection = NWConnection(host: NWEndpoint.Host(host), port: NWEndpoint.Port(rawValue: UInt16(port))!, using: parameters)
+        let connection = NWConnection(host: NWEndpoint.Host(host), port: NWEndpoint.Port(rawValue: UInt16(port))!, using: .tcp)
         
         connection.betterPathUpdateHandler = { isBetterPathAvailable in
             print("A better path is available: \(isBetterPathAvailable)")
@@ -47,14 +44,16 @@ class TCPManager : ISocManager {
         }
         
         dispatchQueue.async { [weak self] in
-            guard let self = self, self.stateSubject.value == .disconnected else {
+            guard let self = self, self.state == .disconnected else {
+                print("TCP not connected....")
                 return
             }
             
-            self.stateSubject.send(.connecting)
+            self.state = .connecting
             
             connection.stateUpdateHandler = { [weak self] state in
                 guard let self = self else {
+                    print("self null connecting....")
                     return
                 }
                 
@@ -63,7 +62,7 @@ class TCPManager : ISocManager {
                         print(error.debugDescription)
                         self.retry(after: self.retryInterval, error: error)
                     case .ready:
-                        self.stateSubject.send(.connected)
+                        self.state = .connected
                         MessageManager.shared.showNotificationError(payload: "\(state)")
                         var messageInit:[String:Any] = [:]
                         messageInit["MessageType"] = "register"
@@ -87,7 +86,7 @@ class TCPManager : ISocManager {
                         self.disconnect()
                         self.retry(after: .seconds(5), error: error)
                     case .cancelled:
-                        self.stateSubject.send(.disconnected)
+                        self.state = .disconnected
                         self.disconnect()
                     default:
                         break
@@ -102,13 +101,13 @@ class TCPManager : ISocManager {
     
     public override func disconnect() {
         dispatchQueue.async { [weak self] in
-            guard let self = self, [.connecting, .connected].contains(self.stateSubject.value) else {
+            guard let self = self, [.connecting, .connected].contains(self.state) else {
                 return
             }
             
             print("Disconnect was called")
             
-            self.stateSubject.send(.disconnecting)
+            self.state = .disconnecting
             self.cancelRetry()
             self.connection?.cancel()
         }
@@ -159,7 +158,7 @@ class TCPManager : ISocManager {
                 let receivedMessage = String(data: data, encoding: .utf8)
                 if let mess = receivedMessage {
                     DispatchQueue.main.async {
-                        self.messageSubject.send(mess)
+                        self.showNotification(payload: mess)
                     }
                 }
             }

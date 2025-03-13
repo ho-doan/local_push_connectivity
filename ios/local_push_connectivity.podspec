@@ -15,7 +15,7 @@ a local network Apple Local Push Connectivity use TCP, Secure TCP, WS, WSS
   s.source           = { :path => '.' }
   s.source_files = 'local_push_connectivity/Sources/local_push_connectivity/**/*'
   s.dependency 'Flutter'
-  s.platform = :ios, '15.0'
+  s.platform = :ios, '12.0'
 
   # Flutter.framework does not contain a i386 slice.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }

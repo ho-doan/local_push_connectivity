@@ -1,6 +1,6 @@
 name: local_push_connectivity
 description: "a local network Apple Local Push Connectivity"
-version: 0.0.4
+version: 0.0.4-beta.1
 homepage: https://github.com/ho-doan/local_push_connectivity
 
 environment:

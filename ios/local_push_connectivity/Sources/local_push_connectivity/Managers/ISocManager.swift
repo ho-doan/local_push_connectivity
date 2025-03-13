@@ -6,26 +6,23 @@
 //
 
 import Foundation
-import Combine
 import UserNotifications
 import Network
 
-@available(iOS 13.0, macOS 12, *)
+// @available(iOS 13.0, macOS 12, *)
 public class ISocManager {
-    public static func register(settings:Settings) -> ISocManager{
+    public static func register(settings:Settings) -> ISocManager? {
         if settings.pushManagerSettings.useTCP{
             if !settings.pushManagerSettings.publicKey.isEmpty{
-                return TCPManager(settings: settings)
+                    return SecureTCPManager(settings: settings)
             }
-            return TCP2Manager(settings: settings)
+            return TCPManager(settings: settings)
         }
-        return WebSocketManager(settings: settings)
+        if #available(iOS 13.0, *){
+            return WebSocketManager(settings: settings)
+        }
+        return nil
     }
-    
-    let messageWillWriteSubject = PassthroughSubject<Void, Never>()
-    
-    let messageSubject: CurrentValueSubject<String?, Never>
-    var cancellables = Set<AnyCancellable>()
     
     public enum State: String, Equatable {
         case disconnected
@@ -40,42 +37,17 @@ public class ISocManager {
         case connectionCancelled
     }
     
-    public var state: State {
-        stateSubject.value
-    }
-    
-    public private(set) lazy var statePublisher = {
-        stateSubject
-            .removeDuplicates()
-            .eraseToAnyPublisher()
-    }()
+    public var state: State = .disconnected
     
     let dispatchQueue = DispatchQueue(label: "NetworkSession.dispatchQueue")
     
     let loggerDispatchQueue = DispatchQueue(label: "NetworkSession.loggerDispatchQueue")
     
-    let stateSubject = CurrentValueSubject<State, Never>(.disconnected)
-    
     let retryInterval = DispatchTimeInterval.seconds(5)
     
     var retryWorkItem: DispatchWorkItem?
     
-    init() {
-        messageSubject = CurrentValueSubject(nil)
-        stateSubject.sink { state in
-            print("State - \(state)")
-        }.store(in: &cancellables)
-        
-        messageSubject.receive(on: DispatchQueue.main)
-            .sink {
-                [self] message in
-                guard let mess = message else {
-                    return
-                }
-                self.showNotification(payload: mess)
-            }
-            .store(in: &cancellables)
-    }
+    init() {}
     
     public func connect(){
         fatalError("This method must be overridden in a subclass")
@@ -126,7 +98,9 @@ public class ISocManager {
             content.sound = .default
         } else {
             content.sound = nil
-            content.interruptionLevel = .passive
+            if #available(iOS 15.0, *){
+                content.interruptionLevel = .passive
+            }
         }
         
         content.userInfo = [

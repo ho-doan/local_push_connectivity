@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Combine
 import Network
 import UserNotifications
 
@@ -39,13 +38,16 @@ class WebSocketManager : ISocManager {
         let url = URL(string: "\(settings.pushManagerSettings.wss ? "wss" : "ws")://\(host):\(port)\(settings.pushManagerSettings.part)")!
         
         print("======== ws connecting \(url)")
-        self.stateSubject.send(.connecting)
+        self.state = .connecting
         
         let urlSession = URLSession(configuration: .default)
         let urlRequest = URLRequest(url: url, timeoutInterval: 30)
-        connection = urlSession.webSocketTask(with: urlRequest)
-        connection!.resume()
-        self.stateSubject.send(.connected)
+        
+        if #available(iOS 13.0, *) {
+            connection = urlSession.webSocketTask(with: urlRequest)
+            connection!.resume()
+            self.state = .connected
+        }
         
         print("======== ws connected")
         var messageInit:[String:Any] = [:]
@@ -55,30 +57,32 @@ class WebSocketManager : ISocManager {
         messageInit["DeviceId"] = settings.deviceId
         if let messageJson = try? JSONSerialization.data(withJSONObject: messageInit){
             let message = String(data: messageJson, encoding: .utf8)!
-            let data = URLSessionWebSocketTask.Message.string(message)
-            self.connection?.send(data){ error in
-                if let error = error {
-                    print("Failed to send data: \(error)")
-                    return
+            if #available(iOS 13.0, *) {
+                let data = URLSessionWebSocketTask.Message.string(message)
+                self.connection?.send(data){ error in
+                    if let error = error {
+                        print("Failed to send data: \(error)")
+                        return
+                    }
+                    print("Data sent: \(message)")
+                    self.receiveData()
                 }
-                print("Data sent: \(message)")
-                self.receiveData()
             }
         }
     }
     
     public override func disconnect() {
         dispatchQueue.async { [weak self] in
-            guard let self = self, [.connecting, .connected].contains(self.stateSubject.value) else {
+            guard let self = self, [.connecting, .connected].contains(self.state) else {
                 return
             }
             
             print("Disconnect was called")
             
-            self.stateSubject.send(.disconnecting)
+            self.state = .disconnecting
             self.cancelRetry()
             self.connection?.cancel()
-            self.stateSubject.send(.disconnected)
+            self.state = .disconnected
         }
     }
     
@@ -106,34 +110,36 @@ class WebSocketManager : ISocManager {
     
     override func receiveData() {
         print("Received string...")
-        self.connection!.receive(completionHandler: { [weak self] result in
-            switch result {
-                case .failure(let error):
-                    print("===ws err: \(error.localizedDescription)")
-                    self?.disconnect()
-                    self?.retry(after: .seconds(5), error: nil)
-                case .success(let message):
-                    switch message {
-                        case .string(let text):
-                            print("Received string: \(text) \(self == nil)")
-                            DispatchQueue.main.async {
-                                self?.messageSubject.send(text)
-                                
-                                self?.receiveData()
-                            }
-                        case .data(let data):
-                            print("Received data: \(data) \(self == nil)")
-                            let receivedMessage = String(data: data, encoding: .utf8)
-                            if let mess = receivedMessage {
+        if #available(iOS 13.0, *) {
+            self.connection!.receive(completionHandler: { [weak self] result in
+                switch result {
+                    case .failure(let error):
+                        print("===ws err: \(error.localizedDescription)")
+                        self?.disconnect()
+                        self?.retry(after: .seconds(5), error: nil)
+                    case .success(let message):
+                        switch message {
+                            case .string(let text):
+                                print("Received string: \(text) \(self == nil)")
                                 DispatchQueue.main.async {
-                                    self?.messageSubject.send(mess)
+                                    self?.showNotification(payload: text)
+                                    
+                                    self?.receiveData()
                                 }
-                            }
-                        @unknown default:
-                            print("===ws err: \(result)")
-                            fatalError()
-                    }
-            }
-        })
+                            case .data(let data):
+                                print("Received data: \(data) \(self == nil)")
+                                let receivedMessage = String(data: data, encoding: .utf8)
+                                if let mess = receivedMessage {
+                                    DispatchQueue.main.async {
+                                        self?.showNotification(payload: mess)
+                                    }
+                                }
+                            @unknown default:
+                                print("===ws err: \(result)")
+                                fatalError()
+                        }
+                }
+            })
+        }
     }
 }
