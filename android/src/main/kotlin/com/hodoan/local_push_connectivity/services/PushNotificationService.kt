@@ -32,6 +32,7 @@ class PushNotificationService : Service(), ReceiverCallback {
     private var notifyManagerId = 1
 
     private var iconNotification: String? = null
+    private var channelId: String? = null
 
     private var isShowNotify = false
 
@@ -64,7 +65,7 @@ class PushNotificationService : Service(), ReceiverCallback {
 
     private fun startForeground() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            createNotificationChannel(context)
+            createNotificationChannel(context, context.packageName)
         }
     }
 
@@ -86,7 +87,7 @@ class PushNotificationService : Service(), ReceiverCallback {
             Log.e("///", "showNotification: parse body error $e")
         }
 
-        val channelId = createNotificationChannel(applicationContext)
+        val channelId = createNotificationChannel(applicationContext, channelId ?: context.packageName)
 
         val packageName = context.packageName
         val packageManager = context.packageManager
@@ -205,9 +206,7 @@ class PushNotificationService : Service(), ReceiverCallback {
             return cert.publicKey.encoded
         }
 
-        fun createNotificationChannel(context: Context): String {
-            // TODO: hodoan handle channel id
-            val channelId = "com.hodoan.notifications"
+        fun createNotificationChannel(context: Context, channelId: String): String {
             val channelName = "My Background Service"
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val channel = NotificationChannel(
@@ -267,13 +266,14 @@ class PushNotificationService : Service(), ReceiverCallback {
         bundle?.getString(SETTINGS_EXTRA)?.let {
             val settings = PluginSettings.fromJson(JSONObject(it))
             iconNotification = settings.iconNotification
+            channelId = settings.channelNotification
             socket = ISocketBase.register(contentResolver, this, settings)
             socket.updateSettings(settings)
         }
 
         super.onStartCommand(intent, flags, startId)
 
-        val channelId = createNotificationChannel(applicationContext)
+        val channelId = createNotificationChannel(applicationContext, channelId ?: context.packageName)
 
         val notification = createNotification(
             channelId,
