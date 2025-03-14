@@ -25,7 +25,6 @@
 
 namespace local_push_connectivity
 {
-
   // static
   void LocalPushConnectivityPlugin::RegisterWithRegistrar(
       flutter::PluginRegistrarWindows *registrar)
@@ -44,6 +43,10 @@ namespace local_push_connectivity
     eventChannel.SetStreamHandler(std::make_unique<flutter::StreamHandlerFunctions<>>(
         [](auto arguments, auto events)
         {
+          if (_newMessage != L"") {
+            events->Success(flutter::EncodableValue(wide_to_utf8(_newMessage)));
+            _newMessage = L"";
+          }
           LocalPushConnectivityPlugin::StreamListen(std::move(events));
           return nullptr;
         },
@@ -55,16 +58,17 @@ namespace local_push_connectivity
 
     LocalPushNotificationProcess::WinProcess::SinkMessage([](bool isBackground, std::wstring message)
                                                           {
-    wchar_t m[3072];
+      wchar_t m[3072];
 
-    swprintf(m, 3072, L"{\"type\": %s, \"data\": %s}",
-    isBackground ? L"true" : L"false",
-    message.c_str()
-    );
-    if (_event_sink != nullptr)
-    {
-    _event_sink->Success(flutter::EncodableValue(wide_to_utf8(m)));
-    } });
+      swprintf(m, 3072, L"{\"type\": %s, \"data\": %s}",
+      isBackground ? L"true" : L"false",
+      message.c_str()
+      );
+      if (_event_sink != nullptr)
+      {
+      _event_sink->Success(flutter::EncodableValue(wide_to_utf8(m)));
+      } 
+    });
 
     channel->SetMethodCallHandler(
         [plugin_pointer = plugin.get()](const auto &call, auto result)
@@ -76,6 +80,7 @@ namespace local_push_connectivity
   }
 
   std::unique_ptr<flutter::EventSink<flutter::EncodableValue>> LocalPushConnectivityPlugin::_event_sink = nullptr;
+  std::wstring _newMessage = L"";
 
   void LocalPushConnectivityPlugin::StreamListen(std::unique_ptr<flutter::EventSink<>> &&events)
   {
@@ -154,6 +159,8 @@ namespace local_push_connectivity
                     if (_event_sink != nullptr)
                     {
                         _event_sink->Success(flutter::EncodableValue(wide_to_utf8(m)));
+                    }else{
+                      _newMessage = m;
                     }
 
                     std::map<std::wstring, std::wstring> user_input;

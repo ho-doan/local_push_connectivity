@@ -1,3 +1,7 @@
+## 0.0.5-beta.4
+
+* fix on tab notify windows when app killed
+
 ## 0.0.5-beta.3
 
 * update channel notification android
