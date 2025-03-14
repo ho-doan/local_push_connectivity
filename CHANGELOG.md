@@ -1,3 +1,7 @@
+## 0.0.5-beta.2
+
+* downgrade ios version 12.0
+
 ## 0.0.5-beta.1
 
 * downgrade ios version 12.0

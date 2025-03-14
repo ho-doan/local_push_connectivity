@@ -352,7 +352,7 @@ LocalPushConnectivity.instance.configSSID('HoDoanWifi');
 
 ## Example
 
-![android](./images/ex.android.jpg)
-![ios](./images/ex.ios.png)
-![ios](./images/ex.web.png)
-![ios](./images/ex.windows.png)
+![android](https://github.com/ho-doan/local_push_connectivity/blob/master/images/ex.android.jpg)
+![ios](https://github.com/ho-doan/local_push_connectivity/blob/master/images/ex.ios.png)
+![ios](https://github.com/ho-doan/local_push_connectivity/blob/master/images/ex.web.png)
+![ios](https://github.com/ho-doan/local_push_connectivity/blob/master/images/ex.windows.png)
