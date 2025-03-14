@@ -46,23 +46,25 @@ public class PushConfigurationManager: NSObject, UserSettingsObserverDelegate {
     
     public func initialize() {
         print("Loading existing push manager.")
-        #if os(iOS)
-        NEAppPushManager.loadAllFromPreferences { managers, error in
-            if let error = error {
-                print("Failed to load all managers from preferences: \(error)")
-                return
+        if let _ = Bundle.main.object(forInfoDictionaryKey: "NEAppPushBundleId") as? String{
+#if os(iOS)
+            NEAppPushManager.loadAllFromPreferences { managers, error in
+                if let error = error {
+                    print("Failed to load all managers from preferences: \(error)")
+                    return
+                }
+                
+                guard let manager = managers?.first else {
+                    return
+                }
+                manager.delegate = self
+                
+                self.dispatchQueue.async {
+                    self.prepare(pushManager: manager)
+                }
             }
-            
-            guard let manager = managers?.first else {
-                return
-            }
-            manager.delegate = self
-            
-            self.dispatchQueue.async {
-                self.prepare(pushManager: manager)
-            }
+#endif
         }
-        #endif
     }
     
     #if os(iOS)

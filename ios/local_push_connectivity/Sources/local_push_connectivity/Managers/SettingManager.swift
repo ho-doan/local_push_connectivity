@@ -15,9 +15,12 @@ public protocol UserSettingsObserverDelegate: AnyObject {
 // @available(iOS 13.0, *)
 public class SettingManager: NSObject {
     private static let settingsKey = "settings"
-    private static let userDefaults: UserDefaults = UserDefaults(suiteName: Bundle.main.object(forInfoDictionaryKey: "GroupNEAppPushLocal") as? String)!
+    private static let groupId = Bundle.main.object(forInfoDictionaryKey: "GroupNEAppPushLocal") as? String
+    private static let userDefaults: UserDefaults = Self.groupId != nil ? UserDefaults(suiteName: Self.groupId)! : UserDefaults.standard
     
     private let delegate: UserSettingsObserverDelegate?
+    
+    private var settings: Settings = Settings()
     
     public init(_ delegate: UserSettingsObserverDelegate?) {
         self.delegate = delegate
@@ -35,6 +38,7 @@ public class SettingManager: NSObject {
                 print("Error encoding settings - \(error)")
             }
         }
+        self.settings = settings
     }
     
     private static func set(settings: Settings) throws {
@@ -86,7 +90,10 @@ public class SettingManager: NSObject {
         guard let settings = Self.fetch() else {
             return
         }
-        delegate?.userSettingsDidChange(settings: settings)
+        if settings != self.settings{
+            self.settings = settings
+            delegate?.userSettingsDidChange(settings: settings)
+        }
     }
     
     public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {

@@ -10,9 +10,7 @@ import local_push_connectivity
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
         GeneratedPluginRegistrant.register(with: self)
-        if let _ = Bundle.main.object(forInfoDictionaryKey: "NEAppPushBundleId") as? String{
-            PushConfigurationManager.shared.initialize()
-        }
+        PushConfigurationManager.shared.initialize()
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
     
