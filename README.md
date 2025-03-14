@@ -347,3 +347,4 @@ LocalPushConnectivity.instance.configSSID('HoDoanWifi');
 ## Example
 
 ![android](./images/ex.android.jpg)
+![ios](./images/ex.ios.png)

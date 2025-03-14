@@ -16,7 +16,7 @@ public protocol UserSettingsObserverDelegate: AnyObject {
 public class SettingManager: NSObject {
     private static let settingsKey = "settings"
     private static let groupId = Bundle.main.object(forInfoDictionaryKey: "GroupNEAppPushLocal") as? String
-    private static let userDefaults: UserDefaults = Self.groupId != nil ? UserDefaults(suiteName: Self.groupId)! : UserDefaults.standard
+    private static let userDefaults: UserDefaults = groupId != nil ? UserDefaults(suiteName: groupId)! : UserDefaults.standard
     
     private let delegate: UserSettingsObserverDelegate?
     
@@ -38,7 +38,6 @@ public class SettingManager: NSObject {
                 print("Error encoding settings - \(error)")
             }
         }
-        self.settings = settings
     }
     
     private static func set(settings: Settings) throws {
