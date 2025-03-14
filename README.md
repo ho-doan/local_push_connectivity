@@ -12,7 +12,13 @@
 * initial Local Push Connectivity
 * start, stop Local Push Connectivity
 * use TCP | Secure TCP | WS | WSS
-* Platform: Linux, macos (doing)
+
+## Platform Support
+
+|                    | Android | iOS | MacOS | Web | Linux | Windows |
+|:------------------:|:-------:|:---:|:-----:|:---:|:-----:|:-------:|
+|                    |    ✅    |  ✅  |   ❌   |  ✅  |   ❌   |    ✅    |
+| Running Background |    ✅    |  ✅  |   ❌   |  ❌  |   ❌   |    ✅    |
 
 ## Getting Started
 
@@ -349,3 +355,4 @@ LocalPushConnectivity.instance.configSSID('HoDoanWifi');
 ![android](./images/ex.android.jpg)
 ![ios](./images/ex.ios.png)
 ![ios](./images/ex.web.png)
+![ios](./images/ex.windows.png)
